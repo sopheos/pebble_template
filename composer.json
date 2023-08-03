@@ -1,6 +1,7 @@
 {
     "name": "sopheos/pebble_template",
     "description": "PHP template library",
+    "license": "MIT",
     "require": {
         "php": ">=8.1.0"
     },

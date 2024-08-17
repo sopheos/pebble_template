@@ -107,7 +107,7 @@ trait HelperTrait
     public static function tag(string $tag, string|array $arg1 = '', string|array $arg2 = []): string
     {
         $attrs = is_array($arg1) ? $arg1 : (is_array($arg2) ? $arg2 : []);
-        $content = is_string($arg1) ? $arg1 : (is_string($arg2) ? $arg2 : []);
+        $content = is_string($arg1) ? $arg1 : (is_string($arg2) ? $arg2 : "");
         $attrStr = self::attrToString($attrs ?? []);
 
         if (in_array($tag, self::$autoclose)) {

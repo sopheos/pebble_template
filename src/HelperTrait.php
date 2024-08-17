@@ -121,7 +121,7 @@ trait HelperTrait
                 if ($value) {
                     $html .= " " . $name;
                 }
-            } elseif ($value !== "") {
+            } elseif (is_numeric($value) || $value) {
                 $value = self::xss($value);
                 $html .= " {$name}=\"{$value}\"";
             }

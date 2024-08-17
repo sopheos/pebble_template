@@ -33,7 +33,7 @@ trait HelperTrait
         $html = "";
         foreach ($meta as $arg) {
             $tag = isset($arg["rel"]) ? "link" : "meta";
-            $html .= self::tag($tag, "", $arg);
+            $html .= self::tag($tag, null, $arg);
         }
         return $html;
     }
@@ -63,7 +63,7 @@ trait HelperTrait
         $html = "";
         $attr = $module ? ["type" => 'module'] : [];
         foreach ($urls as $url) {
-            $html .= self::tag("script", "", $attr + [
+            $html .= self::tag("script", null, $attr + [
                 'src' => $url
             ]);
         }
@@ -80,7 +80,7 @@ trait HelperTrait
     {
         $html = "";
         foreach ($urls as $url) {
-            $html .= self::tag("link", "", [
+            $html .= self::tag("link", null, [
                 "type" => "text/css",
                 "rel" => "stylesheet",
                 "href" => $url,
@@ -95,7 +95,7 @@ trait HelperTrait
      * @param array $urls
      * @return string
      */
-    public static function tag(string $tag, string $content = "", array $args = []): string
+    public static function tag(string $tag, ?string $content = null, array $args = []): string
     {
         $argStr = self::attrToString($args);
 

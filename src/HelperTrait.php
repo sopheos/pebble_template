@@ -31,9 +31,9 @@ trait HelperTrait
     public static function meta(array $meta): string
     {
         $html = "";
-        foreach ($meta as $arg) {
-            $tag = isset($arg["rel"]) ? "link" : "meta";
-            $html .= self::tag($tag, null, $arg);
+        foreach ($meta as $attr) {
+            $tag = isset($attr["rel"]) ? "link" : "meta";
+            $html .= self::tag($tag, $attr);
         }
         return $html;
     }
@@ -63,7 +63,7 @@ trait HelperTrait
         $html = "";
         $attr = $module ? ["type" => 'module'] : [];
         foreach ($urls as $url) {
-            $html .= self::tag("script", null, $attr + [
+            $html .= self::tag("script", $attr + [
                 'src' => $url
             ]);
         }
@@ -80,7 +80,7 @@ trait HelperTrait
     {
         $html = "";
         foreach ($urls as $url) {
-            $html .= self::tag("link", null, [
+            $html .= self::tag("link", [
                 "type" => "text/css",
                 "rel" => "stylesheet",
                 "href" => $url,
@@ -95,15 +95,46 @@ trait HelperTrait
      * @param array $urls
      * @return string
      */
-    public static function tag(string $tag, ?string $content = null, array $args = []): string
+
+    /**
+     * Builds html tag
+     *
+     * @param string $tag
+     * @param string $arg1 tag attributes (array) or tag content (string)
+     * @param array $arg2 tag attributes (array) or tag content (string)
+     * @return string
+     */
+    public static function tag(string $tag, string|array $arg1 = '', string|array $arg2 = []): string
     {
-        $argStr = self::attrToString($args);
+        $attrs = is_array($arg1) ? $arg1 : (is_array($arg2) ? $arg2 : []);
+        $content = is_string($arg1) ? $arg1 : (is_string($arg2) ? $arg2 : []);
+        $attrStr = self::attrToString($attrs ?? []);
 
         if (in_array($tag, self::$autoclose)) {
-            return "<{$tag}{$argStr} />";
+            return "<{$tag}{$attrStr} />\n";
         }
 
-        return "<{$tag}{$argStr}>{$content}</{$tag}>\n";
+        return "<{$tag}{$attrStr}>{$content}</{$tag}>\n";
+    }
+
+    public static function openTag(string $tag, array $attrs = []): string
+    {
+        $attrStr = self::attrToString($attrs);
+
+        if (in_array($tag, self::$autoclose)) {
+            return "<{$tag}{$attrStr} />\n";
+        }
+
+        return "<{$tag}{$attrStr}>";
+    }
+
+    public static function closeTag(string $tag): string
+    {
+        if (in_array($tag, self::$autoclose)) {
+            return "";
+        }
+
+        return "</{$tag}>\n";
     }
 
     /**

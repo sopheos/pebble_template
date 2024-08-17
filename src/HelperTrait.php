@@ -5,8 +5,21 @@ namespace Pebble\Template;
 trait HelperTrait
 {
     private static array $autoclose = [
-        "area", "base", "br", "col", "embed", "hr", "img", "input",
-        "keygen", "link", "meta", "param", "source", "track", "wbr",
+        "area",
+        "base",
+        "br",
+        "col",
+        "embed",
+        "hr",
+        "img",
+        "input",
+        "keygen",
+        "link",
+        "meta",
+        "param",
+        "source",
+        "track",
+        "wbr",
     ];
 
     /**
@@ -99,7 +112,7 @@ trait HelperTrait
      * @param array $attributes
      * @return string
      */
-    public static function attrToString($attributes): string
+    public static function attrToString(array $attributes): string
     {
         $html = "";
 
@@ -108,8 +121,8 @@ trait HelperTrait
                 if ($value) {
                     $html .= " " . $name;
                 }
-            } else {
-                $value = self::xss((string) $value);
+            } elseif ($value !== "") {
+                $value = self::xss($value);
                 $html .= " {$name}=\"{$value}\"";
             }
         }

@@ -26,6 +26,11 @@ trait BagTrait
         return $this;
     }
 
+    public function get(string $name): mixed
+    {
+        return  $this->data[$name] ?? null;
+    }
+
     public function export(): array
     {
         return $this->data;

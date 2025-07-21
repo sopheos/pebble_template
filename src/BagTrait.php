@@ -18,10 +18,12 @@ trait BagTrait
         return $this;
     }
 
-    public function add(string $name, mixed $value): static
+    public function add(string $name, mixed $value, ?string $index = null): static
     {
         if (is_array($this->data[$name] ?? [])) {
-            $this->data[$name][] = $value;
+            $index
+                ? ($this->data[$name][$index] = $value)
+                : ($this->data[$name][] = $value);
         }
         return $this;
     }

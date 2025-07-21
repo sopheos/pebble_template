@@ -49,7 +49,7 @@ trait HelperTrait
     {
         $value = json_encode($value, JSON_HEX_APOS);
 
-        return self::tag("script", "const {$name} = {$value};");
+        return self::tag("script", "{$name} = {$value};");
     }
 
     /**

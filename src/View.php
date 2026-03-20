@@ -59,8 +59,13 @@ class View implements Stringable
         }
 
         ob_start();
-        include $this->file;
-        return ob_get_clean() ?: '';
+        try {
+            include $this->file;
+            return ob_get_clean() ?: '';
+        } catch (\Throwable $ex) {
+            ob_end_clean();
+            throw $ex;
+        }
     }
 
     /**
